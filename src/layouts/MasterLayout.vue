@@ -85,7 +85,7 @@ export default {
         ]);
 
         onMounted(() => {
-            rol.value = ""
+            rol.value = "Administrador"
             username.value = store.state.username
             handleResize();
             window.addEventListener("resize", handleResize);

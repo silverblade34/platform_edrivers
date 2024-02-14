@@ -1,10 +1,8 @@
 <template>
-    <v-btn size="small" class="text-none" color="blue-darken-1" @click="dialog = true"><v-icon icon="mdi-plus"></v-icon>
-        Nuevo</v-btn>
     <v-dialog v-model="dialog" width="550" @click:outside="closeItem">
         <v-card>
             <v-toolbar>
-                <span class="px-4 w-full text-center text-blue-500 font-bold title_views">CREAR COMPAÑIA</span>
+                <span class="px-4 w-full text-center text-blue-500 font-bold title_views">EDITAR COMPAÑIA</span>
             </v-toolbar>
             <v-card-text>
                 <v-col cols="12">
@@ -23,7 +21,7 @@
                 <v-btn color="blue-grey-lighten-2" variant="tonal" @click="closeItem">
                     Cancelar
                 </v-btn>
-                <v-btn color="blue-lighten-1" variant="tonal" @click="createItem">
+                <v-btn color="blue-lighten-1" variant="tonal" @click="editItem">
                     Aceptar
                 </v-btn>
             </v-card-actions>
@@ -31,32 +29,50 @@
     </v-dialog>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
-    emits: ['create-item'],
-    setup(_, { emit }) {
+    props: {
+        itemEdit: Object,
+        openModal: Boolean
+    },
+    emits: ['edit-item', 'cancel-item'],
+    setup(props, { emit }) {
         const dialog = ref(false);
         const name = ref('');
         const username = ref('');
         const password = ref('');
         const codecompany = ref('');
 
-        const createItem = () => {
-            emit("create-item", {
+
+        watch(() => props.openModal, async (newVal) => {
+            dialog.value = newVal
+        })
+
+        watch(() => props.itemEdit, (newVal) => {
+            console.log(newVal)
+            if (Object.keys(newVal).length !== 0) {
+                name.value = newVal.item.name
+                username.value = newVal.item.username
+                password.value = newVal.item.password
+                codecompany.value = newVal.item.codecompany
+            }
+        })
+
+
+        const editItem = () => {
+            emit("edit-item", {
                 "name": name.value,
                 "username": username.value,
                 "password": password.value,
-                "codecompany": codecompany.value,
+                "codecompany": codecompany.value
             })
             closeItem();
         }
 
         const closeItem = () => {
-            dialog.value = false
-            name.value = username.value = password.value = codecompany.value = ""
+            emit('cancel-item')
         }
-
 
         return {
             dialog,
@@ -64,7 +80,7 @@ export default {
             username,
             password,
             codecompany,
-            createItem,
+            editItem,
             closeItem
         }
     }
