@@ -4,7 +4,7 @@
       <div class="w-full flex justify-end">
         <h1 class="text-gray-600 pt-10 font-bold text-5xl mr-15">eDrivers</h1>
       </div>
-      <div class="flex justify-start w-full pt-[8rem]">
+      <div class="flex justify-start w-full pt-[2rem]">
         <div class="min-w-[30rem] rounded-xl ml-20 pt-3 bg-white">
           <div v-if="statusError" class="flex justify-center">
             <v-alert color="#FF5250" theme="dark" icon="mdi-alert-circle" density="compact" closable class="max-w-[25rem]"
