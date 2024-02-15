@@ -74,6 +74,13 @@ export default {
                 value: "forms",
                 to: "/forms",
                 children: []
+            },
+            {
+                icon: "mdi-table",
+                title: "Reportes formularios",
+                value: "reportsforms",
+                to: "/reportsforms",
+                children: []
             }
         ]);
 
