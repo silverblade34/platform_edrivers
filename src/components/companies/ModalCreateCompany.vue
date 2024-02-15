@@ -1,21 +1,21 @@
 <template>
-    <v-btn size="small" class="text-none" color="blue-darken-1" @click="dialog = true"><v-icon icon="mdi-plus"></v-icon>
+    <v-btn size="small" class="text-none" color="indigo-darken-1" @click="dialog = true"><v-icon icon="mdi-plus"></v-icon>
         Nuevo</v-btn>
     <v-dialog v-model="dialog" width="550" @click:outside="closeItem">
         <v-card>
             <v-toolbar>
-                <span class="px-4 w-full text-center text-blue-500 font-bold title_views">CREAR COMPAÑIA</span>
+                <span class="px-4 w-full text-center text-indigo-500 font-bold title_views">CREAR COMPAÑIA</span>
             </v-toolbar>
             <v-card-text>
                 <v-col cols="12">
-                    <v-text-field variant="outlined" label="Nombre" color="blue" v-model="name"
+                    <v-text-field variant="outlined" label="Nombre" color="indigo" v-model="name"
                         prepend-inner-icon="mdi-text"></v-text-field>
-                    <v-text-field variant="outlined" label="Usuario" prepend-inner-icon="mdi-account" color="blue"
+                    <v-text-field variant="outlined" label="Usuario" prepend-inner-icon="mdi-account" color="indigo"
                         v-model="username"></v-text-field>
-                    <v-text-field variant="outlined" label="Contraseña" prepend-inner-icon="mdi-lock" color="blue"
+                    <v-text-field variant="outlined" label="Contraseña" prepend-inner-icon="mdi-lock" color="indigo"
                         v-model="password"></v-text-field>
                     <v-text-field variant="outlined" label="Codigo de compañia" prepend-inner-icon="mdi-barcode"
-                        color="blue" v-model="codecompany"></v-text-field>
+                        color="indigo" v-model="codecompany"></v-text-field>
                 </v-col>
             </v-card-text>
             <v-card-actions>

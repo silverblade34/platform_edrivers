@@ -60,10 +60,20 @@ export default {
             itemEdit.value = item
         }
 
+        const onDeleteItem = () => {
+
+        }
+
+        const onUpdateItem = () => {
+
+        }
+
         return {
             dialogEdit,
             dataCompanies,
             itemEdit,
+            onUpdateItem,
+            onDeleteItem,
             onCreateItem,
             onEditItem
         }

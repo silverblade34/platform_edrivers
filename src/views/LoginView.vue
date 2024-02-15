@@ -40,7 +40,6 @@ export default {
     const router = useRouter();
 
     const onValidateLogin = (data) => {
-      console.log(data)
       authLoginApi(data)
         .then(response => {
           const user = response.data.data
@@ -51,24 +50,18 @@ export default {
           router.push('/');
         })
         .catch(error => {
-          console.log(error)
           statusError.value = true
           if (error.response) {
             if (error.response.status === 401) {
-              // Manejar el error de Unauthorized (401) aquí
               messageError.value = "Las credenciales de usuario no son válidas"
             } else if (error.response.status === 500) {
-              // Manejar el error de Internal Server Error (500) aquí
               messageError.value = "Error 500: Error interno del servidor"
             } else {
-              // Otros códigos de estado pueden ser manejados aquí
               messageError.value = "Error:", error.response.data
             }
           } else if (error.request) {
-            // La solicitud fue realizada pero no se recibió respuesta
             messageError.value = "No se recibió respuesta del servidor"
           } else {
-            // Ocurrió un error al configurar la solicitud
             messageError.value = "Error al configurar la solicitud:", error.message
           }
         });

@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-layout>
-            <v-navigation-drawer v-model="drawer" :rail="rail" permanent @click="rail = false" color="blue-darken-1"
+            <v-navigation-drawer v-model="drawer" :rail="rail" permanent @click="rail = false" color="indigo-darken-1"
                 class="border-0">
                 <div class="p-2 py-10 flex items-center justify-center gap-2">
                     <span v-if="!rail" class="font-bold text-2xl">Signia</span>
@@ -61,13 +61,6 @@ export default {
         const rol = ref('')
         const username = ref('')
         const ItemsNavegation = ref([
-            {
-                icon: "mdi-home",
-                title: "Home",
-                value: "home",
-                to: "/home",
-                children: []
-            },
             {
                 icon: "mdi-domain",
                 title: "Compañias",

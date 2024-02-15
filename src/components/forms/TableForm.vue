@@ -1,5 +1,8 @@
 <template>
     <v-data-table :headers="headers" :items="desserts" class="elevation-1 text-sm">
+        <template v-slot:[`item.number_question`]="{ item }">
+            {{ item.questions.length }}
+        </template>
         <template v-slot:[`item.createdAt`]="{ item }">
             {{ formatCreatedAt(item.createdAt) }}
         </template>
@@ -31,7 +34,7 @@ export default ({
         return {
             headers: [
                 { title: 'Titulo', align: 'start', key: 'title' },
-                { title: 'N° preguntas', align: 'start', key: 'username' },
+                { title: 'N° preguntas', align: 'start', key: 'number_question' },
                 { title: 'Fecha creación', key: 'createdAt' },
                 { title: 'Acciones', align: 'center', key: 'actions' },
             ]

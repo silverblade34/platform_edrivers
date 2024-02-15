@@ -54,6 +54,6 @@ export default ({
 <style>
 .selected-item {
     background-color: #4777bea1 !important;
-    border-right: 4px solid rgb(14, 84, 165);
+    border-right: 4px solid rgb(119, 153, 190);
 }
 </style>
