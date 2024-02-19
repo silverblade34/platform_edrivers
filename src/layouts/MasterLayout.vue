@@ -62,13 +62,6 @@ export default {
         const username = ref('')
         const ItemsNavegation = ref([
             {
-                icon: "mdi-domain",
-                title: "Compañias",
-                value: "companies",
-                to: "/companies",
-                children: []
-            },
-            {
                 icon: "mdi-form-select",
                 title: "Formularios",
                 value: "forms",

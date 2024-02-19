@@ -28,8 +28,10 @@ export default {
           const dataForms = ref([]);
           const itemEdit = ref({});
           const dialogEdit = ref(false);
+          const tokenAuth = ref(false);
 
           onMounted(() => {
+               tokenAuth.value = store.state.token
                loadData()
           })
 
@@ -38,7 +40,7 @@ export default {
                     console.log("---------------------------1")
                     console.log(store.state.token)
                     console.log("---------------------------2")
-                    createFormApi(data, store.state.token)
+                    createFormApi(data, tokenAuth.value)
                          .then(() => {
                               basicAlert(() => {
                                    loadData()

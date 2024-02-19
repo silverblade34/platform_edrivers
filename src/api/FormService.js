@@ -11,11 +11,9 @@ export function findAllFormApi(token) {
 }
 
 export function createFormApi(payload, token) {
-    console.log("------------------------------3")
-    console.log(token)
-    return axiosInstance.post(`${baseURL}/forms`, {
+    return axiosInstance.post(`${baseURL}/forms`,payload, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    }, payload)
+    })
 }
