@@ -18,13 +18,14 @@
                 <v-btn color="indigo" class="custom-btn mb-3 md:mb-0" @click="searchReport">Buscar</v-btn>
             </div>
         </div>
-        <TableAnsweredFormVue :desserts="dessertsAnsweredForms" />
+        <TableAnsweredFormVue :desserts="dessertsAnsweredForms" :dataDrivers="dataDrivers"/>
     </div>
 </template>
 <script>
+import { reportAnsweredFormApi } from '@/api/AnsweredFormService';
 import { findAllDriversApi } from '@/api/DriversService';
 import TableAnsweredFormVue from '@/components/answered-form/TableAnsweredForm.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import store from '@/store';
 
 export default {
@@ -35,6 +36,7 @@ export default {
         const dateFrom = ref('');
         const dateTo = ref('');
         const driver = ref('');
+        const driverId = ref(0);
         const dataDrivers = ref([]);
         const dropdownDrivers = ref([]);
         const dessertsAnsweredForms = ref([]);
@@ -53,12 +55,34 @@ export default {
                 })
         }
 
+        watch(() => driver.value, (newVal) => {
+            if (newVal != "Todos") {
+                driverId.value = dataDrivers.value.find(driver => driver.name == newVal).id
+            } else {
+                driverId.value = 0
+            }
+
+        })
+
+        const searchReport = () => {
+            const payload = {
+                "dateFrom": dateFrom.value,
+                "dateTo": dateTo.value,
+                "driverId": driverId.value
+            }
+            reportAnsweredFormApi(payload, store.state.token)
+                .then(response => {
+                    dessertsAnsweredForms.value = response.data.data
+                })
+        }
+
         return {
             driver,
             dateFrom,
             dateTo,
             dataDrivers,
             dropdownDrivers,
+            searchReport,
             dessertsAnsweredForms
         }
     }

@@ -57,7 +57,7 @@ export default {
             } else if (error.response.status === 500) {
               messageError.value = "Error 500: Error interno del servidor"
             } else {
-              messageError.value = "Error:", error.response.data
+              messageError.value = error.response.data.message
             }
           } else if (error.request) {
             messageError.value = "No se recibió respuesta del servidor"

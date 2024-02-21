@@ -10,8 +10,11 @@
                 <v-col cols="12">
                     <v-text-field variant="outlined" label="Titulo" color="indigo" v-model="title"
                         prepend-inner-icon="mdi-text"></v-text-field>
+                    <v-textarea variant="outlined" label="Descripción" color="indigo" v-model="description"
+                        prepend-inner-icon="mdi-text-search" rows="3"></v-textarea>
                     <div class="pb-3 flex gap-1 items-center">
-                        <v-text-field label="Pregunta" color="indigo" v-model="question" hide-details></v-text-field>
+                        <v-text-field variant="outlined" label="Pregunta" color="indigo" v-model="question"
+                            prepend-inner-icon="mdi-help" hide-details></v-text-field>
                         <span @click="onAddQuestion">
                             <v-btn icon="mdi-check-bold" color="green" size="small" variant="text">
                             </v-btn>
@@ -56,12 +59,14 @@ export default {
     setup(_, { emit }) {
         const dialog = ref(false);
         const title = ref('');
+        const description = ref('');
         const question = ref('');
         const itemsQuestion = ref([]);
 
         const createItem = () => {
             emit("create-item", {
                 "title": title.value,
+                "description": description.value,
                 "questions": itemsQuestion.value
             })
             closeItem();
@@ -87,6 +92,7 @@ export default {
         return {
             dialog,
             title,
+            description,
             question,
             itemsQuestion,
             onDeleteQuestion,

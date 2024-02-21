@@ -3,8 +3,13 @@
         <v-layout>
             <v-navigation-drawer v-model="drawer" :rail="rail" permanent @click="rail = false" color="indigo-darken-1"
                 class="border-0">
-                <div class="p-2 py-10 flex items-center justify-center gap-2">
-                    <span v-if="!rail" class="font-bold text-2xl">Signia</span>
+                <div class="p-2 py-7 flex items-center justify-center gap-2">
+                    <div>
+                        <div class="p-1 pt-4 flex items-center justify-center">
+                            <img :src="logoEdriver" class="w-[6rem] bg-gray-100 rounded-md" />
+                        </div>
+                        <p v-if="!rail" class="font-bold text-2xl text-center w-full">eDriver</p>
+                    </div>
                 </div>
                 <SidebarLayout :itemsNavegation="filteredItems" :rail="rail" />
             </v-navigation-drawer>
@@ -42,6 +47,7 @@ import { ref, onMounted, computed } from 'vue';
 import SidebarLayout from './SidebarLayout.vue';
 import avatarImage from "@/assets/iconuser_hombre.png";
 import MenuAsPopover from '@/components/general/MenuAsPopover.vue';
+import LogoEdriver from "@/assets/logo_edriver.png";
 import store from '@/store';
 
 export default {
@@ -52,6 +58,7 @@ export default {
     data() {
         return {
             avatarPath: avatarImage,
+            logoEdriver: LogoEdriver
         }
     },
     setup() {
@@ -62,14 +69,14 @@ export default {
         const username = ref('')
         const ItemsNavegation = ref([
             {
-                icon: "mdi-form-select",
+                icon: "mdi-file-question-outline",
                 title: "Formularios",
                 value: "forms",
                 to: "/forms",
                 children: []
             },
             {
-                icon: "mdi-table",
+                icon: "mdi-form-select",
                 title: "Reportes formularios",
                 value: "reportsforms",
                 to: "/reportsforms",

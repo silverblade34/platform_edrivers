@@ -34,6 +34,7 @@ export default ({
         return {
             headers: [
                 { title: 'Titulo', align: 'start', key: 'title' },
+                { title: 'Descripción', align: 'start', key: 'description' },
                 { title: 'N° preguntas', align: 'start', key: 'number_question' },
                 { title: 'Fecha creación', key: 'createdAt' },
                 { title: 'Acciones', align: 'center', key: 'actions' },

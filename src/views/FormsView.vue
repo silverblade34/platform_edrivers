@@ -11,8 +11,8 @@
 </template>
 <script>
 import { ref, onMounted } from 'vue';
-import { basicAlert } from '@/helpers/SweetAlert';
-import { findAllFormApi, createFormApi } from '@/api/FormService';
+import { basicAlert, confirmBasic } from '@/helpers/SweetAlert';
+import { findAllFormApi, createFormApi, updateFormApi, deleteFormApi } from '@/api/FormService';
 import ModalCreateFormsVue from '@/components/forms/ModalCreateForms.vue';
 import TableFormVue from '@/components/forms/TableForm.vue';
 import ModalEditForms from '@/components/forms/ModalEditForms.vue';
@@ -37,9 +37,6 @@ export default {
 
           const onCreateItem = async (data) => {
                if (data.title != "" && data.questions.length > 0) {
-                    console.log("---------------------------1")
-                    console.log(store.state.token)
-                    console.log("---------------------------2")
                     createFormApi(data, tokenAuth.value)
                          .then(() => {
                               basicAlert(() => {
@@ -64,12 +61,35 @@ export default {
                itemEdit.value = item
           }
 
-          const onDeleteItem = () => {
-
+          const onDeleteItem = (item) => {
+               confirmBasic(async () => {
+                    deleteFormApi(item.item.id, store.state.token)
+                         .then(response => {
+                              basicAlert(() => {
+                                   loadData()
+                              }, 'success', 'Logrado', response.data.message)
+                         })
+                         .catch(error => {
+                              basicAlert(() => { loadData() }, 'error', 'Error', error.response.data.message)
+                         })
+               }, '¿Estás seguro de eliminar este formulario, se eliminaron los registros de formularios resueltos relacionados?', 'Aceptar');
           }
 
-          const onUpdateItem = () => {
-
+          const onUpdateItem = (item) => {
+               if (item.title != "" && item.questions.length > 0) {
+                    console.log(itemEdit.value.item)
+                    updateFormApi(itemEdit.value.item.id, item, tokenAuth.value)
+                         .then(() => {
+                              basicAlert(() => {
+                                   loadData()
+                              }, 'success', 'Logrado', "Se ha editado correctamente")
+                         })
+                         .catch(error => {
+                              basicAlert(() => { loadData() }, 'error', 'Error', error.message)
+                         })
+               } else {
+                    basicAlert(() => { loadData() }, 'warning', 'Error', "Los campos no deben estar vacios")
+               }
           }
 
           return {
