@@ -57,7 +57,7 @@
                                             Imagen:
                                         </span>
                                         <div>
-                                            <img :src="'http://198.211.99.223:3020/api/v1/answered-forms/getImage/' + item.img"
+                                            <img :src="'http://204.48.17.106:3020/api/v1/answered-forms/getImage/' + item.img"
                                                 alt="" class="w-[50%]">
                                         </div>
                                     </div>
