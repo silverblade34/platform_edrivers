@@ -81,6 +81,13 @@ export default {
                 value: "reportsforms",
                 to: "/reportsforms",
                 children: []
+            },
+            {
+                icon: "mdi-domain",
+                title: "Compañias",
+                value: "companies",
+                to: "/customers",
+                children: []
             }
         ]);
 
@@ -92,8 +99,16 @@ export default {
         })
 
         const filteredItems = computed(() => {
-            return ItemsNavegation.value
-        })
+            // Lógica para filtrar los ítems según el rol
+            if (store.state.role === 'ADMIN_ROLE') {
+                return ItemsNavegation.value.filter(item => item.value === 'companies');
+            } else if (store.state.role === 'REGULAR_USER_ROLE') {
+                // Filtra la lista para mostrar solo ciertos ítems para el rol de usuario
+                return ItemsNavegation.value.filter(item => item.value === 'forms' || item.value === 'reportsforms');
+            } else {
+                return []; // Si el rol no coincide con ninguna condición, muestra una lista vacía
+            }
+        });
 
         const handleResize = () => {
             isMobile.value = window.innerWidth <= 500; // Define aquí el ancho máximo para considerar como pantalla pequeña

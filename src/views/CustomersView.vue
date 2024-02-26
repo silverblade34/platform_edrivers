@@ -13,10 +13,10 @@
 /* eslint-disable */
 import { ref, onMounted } from 'vue';
 import { basicAlert, confirmBasic } from '@/helpers/SweetAlert';
-import { findAllCompanyApi, createCompanyApi } from '@/api/CompaniesService';
-import ModalCreateCompanyVue from '@/components/companies/ModalCreateCompany.vue';
-import TableCompaniesVue from '@/components/companies/TableCompanies.vue';
-import ModalEditCompanyVue from '@/components/companies/ModalEditCompany.vue';
+import { findAllCustomersApi, createCustomersApi } from '@/api/CustomersService';
+import ModalCreateCompanyVue from '@/components/customers/ModalCreateCompany.vue';
+import TableCompaniesVue from '@/components/customers/TableCompanies.vue';
+import ModalEditCompanyVue from '@/components/customers/ModalEditCompany.vue';
 import store from '@/store';
 
 export default {
@@ -36,7 +36,7 @@ export default {
 
         const onCreateItem = async (data) => {
             if (data.name != "" && data.username != "" && data.password != "" && data.codecompany != "") {
-                await createCompanyApi(data, store.state.token)
+                await createCustomersApi(data, store.state.token)
                     .then(() => {
                         basicAlert(() => {
                             loadData()
@@ -51,7 +51,7 @@ export default {
         }
 
         const loadData = async () => {
-            const responseCompany = await findAllCompanyApi(store.state.token)
+            const responseCompany = await findAllCustomersApi(store.state.token)
             dataCompanies.value = responseCompany.data.data
         }
 

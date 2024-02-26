@@ -53,8 +53,8 @@ export default {
             console.log(newVal)
             if (Object.keys(newVal).length !== 0) {
                 name.value = newVal.item.name
-                username.value = newVal.item.username
-                password.value = newVal.item.password
+                username.value = newVal.item.user.username
+                password.value = newVal.item.user.password
                 codecompany.value = newVal.item.codecompany
             }
         })

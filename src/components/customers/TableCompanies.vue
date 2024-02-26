@@ -28,7 +28,7 @@ export default ({
         return {
             headers: [
                 { title: 'Nombre', align: 'start', key: 'name' },
-                { title: 'Usuario', align: 'start', key: 'username' },
+                { title: 'Usuario', align: 'start', key: 'user.username' },
                 { title: 'Codigo de compañia', key: 'codecompany' },
                 { title: 'Codigo de recurso', align: 'start', key: 'recourseId' },
                 { title: 'Acciones', align: 'center', key: 'actions' },

@@ -13,9 +13,9 @@ const router = createRouter({
             component: () => import("@/layouts/MasterLayout.vue"),
             children: [
                 {
-                    name: "companies",
-                    path: "companies",
-                    component: () => import("@/views/CompaniesView.vue"),
+                    name: "customers",
+                    path: "customers",
+                    component: () => import("@/views/CustomersView.vue"),
                 },
                 {
                     name: "forms",
@@ -47,9 +47,21 @@ router.beforeEach((to, from, next) => {
         // Si la ruta requiere autenticación y el usuario no está autenticado, redirigir a la página de inicio de sesión
         next({ name: 'login' });
     } else if (to.name === 'login' && store.state.isAuthenticated) {
-        next({ name: 'forms' });
+        if (store.state.role == "ADMIN_ROLE") {
+            next({ name: 'customers' });
+        } else if (store.state.role == "REGULAR_USER_ROLE") {
+            next({ name: 'forms' });
+        } else {
+            next();
+        }
     } else if (to.path === '/' && store.state.isAuthenticated) {
-        next({ name: 'forms' });
+        if (store.state.role == "ADMIN_ROLE") {
+            next({ name: 'customers' });
+        } else if (store.state.role == "REGULAR_USER_ROLE") {
+            next({ name: 'forms' });
+        } else {
+            next();
+        }
     } else {
         next();
     }
