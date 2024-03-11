@@ -22,7 +22,7 @@ export function updateFormApi(id, payload, token) {
     return axiosInstance.patch(`${baseURL}/forms/${id}`, payload, {
         headers: {
             Authorization: `Bearer ${token}`,
-        },
+        },  
     })
 }
 
