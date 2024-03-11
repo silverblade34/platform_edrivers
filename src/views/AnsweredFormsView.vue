@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between">
-      <h1 class="font-bold lg:text-2xl text-xl text-gray-400">Reportes de formularios</h1>
+      <h1 class="font-bold lg:text-2xl text-xl text-gray-400">Reportes de Formulario</h1>
     </div>
     <div class="py-5">
       <div class="block w-full lg:flex justify-between gap-2 items-center mb-4">
