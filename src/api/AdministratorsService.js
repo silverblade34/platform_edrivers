@@ -11,11 +11,9 @@ export function findAlladministratorsApi(token) {
 }
 
 export function createadministratorsApi(payload, token) {
-    console.log("gaaaaaaaaaaaaaa",payload)
-    console.log("gaaaaaaaaaaaaaa",token)
-    return axiosInstance.post(`${baseURL}/administrator`, {
+    return axiosInstance.post(`${baseURL}/administrator`,payload, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    }, payload)
+    })
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between">
-        <h1 class="font-bold lg:text-2xl text-xl text-gray-400">Compañias 123</h1>
+        <h1 class="font-bold lg:text-2xl text-xl text-gray-400">ADMINISTRADORES</h1>
         <ModalCreateAdministratorVue @create-item="onCreateItem" />
     </div>
     <div class="py-5">

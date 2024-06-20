@@ -11,9 +11,9 @@ export function findAllCustomersApi(token) {
 }
 
 export function createCustomersApi(payload, token) {
-    return axiosInstance.post(`${baseURL}/customers`, {
+    return axiosInstance.post(`${baseURL}/customers`,payload, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    }, payload)
+    })
 }

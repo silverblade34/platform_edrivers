@@ -4,7 +4,7 @@
     <v-dialog v-model="dialog" width="550" @click:outside="closeItem">
         <v-card>
             <v-toolbar>
-                <span class="px-4 w-full text-center text-indigo-500 font-bold title_views">CREAR COMPAÑIA</span>
+                <span class="px-4 w-full text-center text-indigo-500 font-bold title_views">CREAR ADMINISTRADORES</span>
             </v-toolbar>
             <v-card-text>
                 <v-col cols="12">

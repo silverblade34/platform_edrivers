@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" width="550" @click:outside="closeItem">
         <v-card>
             <v-toolbar>
-                <span class="px-4 w-full text-center text-blue-500 font-bold title_views">EDITAR COMPAÑIA</span>
+                <span class="px-4 w-full text-center text-blue-500 font-bold title_views">EDITAR ADMINISTRADORES</span>
             </v-toolbar>
             <v-card-text>
                 <v-col cols="12">
@@ -12,8 +12,7 @@
                         v-model="username"></v-text-field>
                     <v-text-field variant="outlined" label="Contraseña" prepend-inner-icon="mdi-lock" color="blue"
                         v-model="password"></v-text-field>
-                    <v-text-field variant="outlined" label="Codigo de compañia" prepend-inner-icon="mdi-barcode"
-                        color="blue" v-model="codecompany"></v-text-field>
+                   
                 </v-col>
             </v-card-text>
             <v-card-actions>
