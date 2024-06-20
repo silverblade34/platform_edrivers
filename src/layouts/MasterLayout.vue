@@ -42,6 +42,7 @@
         </v-layout>
     </v-card>
 </template>
+
 <script>
 import { ref, onMounted, computed } from 'vue';
 import SidebarLayout from './SidebarLayout.vue';
@@ -88,6 +89,13 @@ export default {
                 value: "companies",
                 to: "/customers",
                 children: []
+            },
+            {
+                icon: "mdi-account-group",
+                title: "Administradores",
+                value: "administrator",
+                to: "/administrator",
+                children: []
             }
         ]);
 
@@ -105,6 +113,9 @@ export default {
             } else if (store.state.role === 'REGULAR_USER_ROLE') {
                 // Filtra la lista para mostrar solo ciertos ítems para el rol de usuario
                 return ItemsNavegation.value.filter(item => item.value === 'forms' || item.value === 'reportsforms');
+            } else if (store.state.role === 'MASTER_ADMIN_ROLE') {
+                // Filtra la lista para mostrar solo ciertos ítems para el rol de master admin
+                return ItemsNavegation.value.filter(item => item.value === 'administrator');
             } else {
                 return []; // Si el rol no coincide con ninguna condición, muestra una lista vacía
             }
@@ -126,6 +137,7 @@ export default {
     }
 }
 </script>
+
 <style>
 .v-list-item-title {
     font-size: 14px !important;
