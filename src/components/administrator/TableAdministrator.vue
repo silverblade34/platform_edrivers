@@ -6,10 +6,10 @@
                     <v-btn icon="mdi-pencil" size="small" variant="text" color="green"></v-btn>
                     <v-tooltip activator="parent" location="top">Editar</v-tooltip>
                 </span>
-                <span @click="deleteItem(item)">
+                <!-- <span @click="deleteItem(item)">
                     <v-btn icon="mdi-delete-empty" size="small" variant="text" color="red"></v-btn>
                     <v-tooltip activator="parent" location="top">Eliminar</v-tooltip>
-                </span>
+                </span> -->
             </div>
         </template>
     </v-data-table>

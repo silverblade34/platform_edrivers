@@ -17,3 +17,21 @@ export function createCustomersApi(payload, token) {
         },
     })
 }
+
+export function updateCustomerApi(payload, token, id) {
+    console.log("gaaaaaaaaaaaaaaaa",id)
+    return axiosInstance.patch(`${baseURL}/customers/${id}`,payload, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+}
+
+export function deleteCustomerApi(token, id) {
+    return axiosInstance.delete(`${baseURL}/customers/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+}
+

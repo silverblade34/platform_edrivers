@@ -17,3 +17,12 @@ export function createadministratorsApi(payload, token) {
         },
     })
 }
+
+export function updateadministratorApi(payload, token, id) {
+
+    return axiosInstance.patch(`${baseURL}/administrator/${id}`,payload, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+}

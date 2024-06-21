@@ -38,6 +38,7 @@ export default {
     emits: ['edit-item', 'cancel-item'],
     setup(props, { emit }) {
         const dialog = ref(false);
+        const id = ref('');
         const name = ref('');
         const username = ref('');
         const password = ref('');
@@ -51,6 +52,7 @@ export default {
         watch(() => props.itemEdit, (newVal) => {
             console.log(newVal)
             if (Object.keys(newVal).length !== 0) {
+                id.value = newVal.item.id
                 name.value = newVal.item.name
                 username.value = newVal.item.user.username
                 password.value = newVal.item.user.password
@@ -61,6 +63,7 @@ export default {
 
         const editItem = () => {
             emit("edit-item", {
+                "id": id.value,
                 "name": name.value,
                 "username": username.value,
                 "password": password.value,
@@ -78,7 +81,7 @@ export default {
             name,
             username,
             password,
-  
+            id,
             editItem,
             closeItem
         }

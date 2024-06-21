@@ -13,7 +13,7 @@
 /* eslint-disable */
 import { ref, onMounted } from 'vue';
 import { basicAlert, confirmBasic } from '@/helpers/SweetAlert';
-import { findAlladministratorsApi, createadministratorsApi } from '@/api/AdministratorsService';
+import { findAlladministratorsApi, createadministratorsApi, updateadministratorApi } from '@/api/AdministratorsService';
 import ModalCreateAdministratorVue from '@/components/administrator/ModalCreateAdministrator.vue';
 import TableAdministratorVue from '@/components/administrator/TableAdministrator.vue';
 import ModalEditAdministratorVue from '@/components/administrator/ModalEditAdministrator.vue';
@@ -65,8 +65,21 @@ console.log("gaaaaaaaaaa")
 
         }
 
-        const onUpdateItem = () => {
-
+        const onUpdateItem = async (data) => {
+            if (data.name !== "" && data.username !== "" && data.password !== "") {
+                await updateadministratorApi(data, store.state.token, data.id)
+                    .then(() => {
+                        basicAlert(() => {
+                            loadData();
+                            dialogEdit.value = false;
+                        }, 'success', 'Logrado', "Se ha actualizado correctamente")
+                    })
+                    .catch(error => {
+                        basicAlert(() => {}, 'error', 'Error', error.message)
+                    })
+            } else {
+                basicAlert(() => {}, 'warning', 'Error', "Los campos no deben estar vacíos")
+            }
         }
 
         return {

@@ -56,6 +56,8 @@ router.beforeEach((to, from, next) => {
             next({ name: 'customers' });
         } else if (store.state.role == "REGULAR_USER_ROLE") {
             next({ name: 'forms' });
+        }else if (store.state.role == "MASTER_ADMIN_ROLE"){
+            next({name : 'administrator'})
         } else {
             next();
         }
@@ -64,6 +66,8 @@ router.beforeEach((to, from, next) => {
             next({ name: 'customers' });
         } else if (store.state.role == "REGULAR_USER_ROLE") {
             next({ name: 'forms' });
+        }else if (store.state.role == "MASTER_ADMIN_ROLE"){
+            next({name : 'administrator'})
         } else {
             next();
         }

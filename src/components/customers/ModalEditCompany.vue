@@ -12,8 +12,8 @@
                         v-model="username"></v-text-field>
                     <v-text-field variant="outlined" label="Contraseña" prepend-inner-icon="mdi-lock" color="blue"
                         v-model="password"></v-text-field>
-                    <v-text-field variant="outlined" label="Codigo de compañia" prepend-inner-icon="mdi-barcode"
-                        color="blue" v-model="codecompany"></v-text-field>
+                    <!-- <v-text-field variant="outlined" label="Codigo de compañia" prepend-inner-icon="mdi-barcode"
+                        color="blue" v-model="codecompany"></v-text-field> -->
                 </v-col>
             </v-card-text>
             <v-card-actions>
@@ -39,6 +39,7 @@ export default {
     emits: ['edit-item', 'cancel-item'],
     setup(props, { emit }) {
         const dialog = ref(false);
+        const id = ref('')
         const name = ref('');
         const username = ref('');
         const password = ref('');
@@ -52,6 +53,7 @@ export default {
         watch(() => props.itemEdit, (newVal) => {
             console.log(newVal)
             if (Object.keys(newVal).length !== 0) {
+                id.value = newVal.item.id
                 name.value = newVal.item.name
                 username.value = newVal.item.user.username
                 password.value = newVal.item.user.password
@@ -62,6 +64,7 @@ export default {
 
         const editItem = () => {
             emit("edit-item", {
+                "id": id.value,
                 "name": name.value,
                 "username": username.value,
                 "password": password.value,
@@ -77,6 +80,7 @@ export default {
         return {
             dialog,
             name,
+            id,
             username,
             password,
             codecompany,
