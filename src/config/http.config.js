@@ -11,9 +11,8 @@ axiosInstance.interceptors.response.use(
     error => {
         console.log(error)
         if (error.response.status === 401) {
-            console.log("-------------ERROR DE 401-------------")
-            // localStorage.clear();
-            // location.reload();
+            localStorage.clear();
+            location.reload();
         }
         return Promise.reject(error);
     }

@@ -1,67 +1,67 @@
 <template>
     <div class="flex justify-between">
         <h1 class="font-bold lg:text-2xl text-xl text-gray-400">Compañias</h1>
-        <ModalCreateCompanyVue @create-item="onCreateItem" />
+        <ModalCreateCustomerVue @create-item="onCreateItem" />
     </div>
     <div class="py-5">
-        <TableCompaniesVue :desserts="dataCompanies" @edit-item="onEditItem" @delete-item="onDeleteItem" />
+        <TableCustomersVue :desserts="dataCompanies" @edit-item="onEditItem" @delete-item="onDeleteItem" />
     </div>
-    <ModalEditCompanyVue :itemEdit="itemEdit" :openModal="dialogEdit" @cancel-item="dialogEdit = false"
+    <ModalEditCustomerVue :itemEdit="itemEdit" :openModal="dialogEdit" @cancel-item="dialogEdit = false"
         @edit-item="onUpdateItem" />
 
-    <v-dialog v-model="confirmDialog" max-width="500px">
-        <v-card>
-            <v-card-title class="headline">Confirmar Eliminación</v-card-title>
-            <v-card-text>¿Estás seguro de que deseas eliminar esta compañía?</v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="red darken-1" text @click="confirmDialog = false">Cancelar</v-btn>
-                <v-btn color="green darken-1" text @click="confirmDelete">Eliminar</v-btn>
-            </v-card-actions>
+    <v-dialog v-model="dialogLoader" :scrim="false" persistent width="auto">
+        <v-card color="indigo">
+            <v-card-text>
+                Procesando...
+                <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            </v-card-text>
         </v-card>
     </v-dialog>
 </template>
-
 <script>
 /* eslint-disable */
 import { ref, onMounted } from 'vue';
 import { basicAlert, confirmBasic } from '@/helpers/SweetAlert'; // Importando basicAlert
 import { findAllCustomersApi, createCustomersApi, updateCustomerApi, deleteCustomerApi } from '@/api/CustomersService';
-import ModalCreateCompanyVue from '@/components/customers/ModalCreateCompany.vue';
-import TableCompaniesVue from '@/components/customers/TableCompanies.vue';
-import ModalEditCompanyVue from '@/components/customers/ModalEditCompany.vue';
+import ModalCreateCustomerVue from '@/components/customers/ModalCreateCustomer.vue';
+import TableCustomersVue from '@/components/customers/TableCustomers.vue';
+import ModalEditCustomerVue from '@/components/customers/ModalEditCustomer.vue';
 import store from '@/store';
 
-export default {  
+export default {
     components: {
-        ModalCreateCompanyVue,
-        ModalEditCompanyVue,
-        TableCompaniesVue,
+        ModalCreateCustomerVue,
+        ModalEditCustomerVue,
+        TableCustomersVue,
     },
-    setup() {   
+    setup() {
         const dataCompanies = ref([]);
         const itemEdit = ref({});
         const dialogEdit = ref(false);
-        const confirmDialog = ref(false);
         const itemToDelete = ref(null);
+        const dialogLoader = ref(false);
 
         onMounted(() => {
             loadData()
         })
 
         const onCreateItem = async (data) => {
+            dialogLoader.value = true;
             if (data.name !== "" && data.username !== "" && data.password !== "" && data.codecompany !== "") {
                 await createCustomersApi(data, store.state.token)
                     .then(() => {
+                        dialogLoader.value = false;
                         basicAlert(() => {
                             loadData();
                         }, 'success', 'Logrado', "Se ha creado correctamente")
                     })
                     .catch(error => {
-                        basicAlert(() => {}, 'error', 'Error', error.message)
+                        dialogLoader.value = false;
+                        basicAlert(() => { }, 'error', 'Error', error.response.data.message)
                     })
             } else {
-                basicAlert(() => {}, 'warning', 'Error', "Los campos no deben estar vacíos")
+                dialogLoader.value = false;
+                basicAlert(() => { }, 'warning', 'Error', "Los campos no deben estar vacíos")
             }
         }
 
@@ -91,10 +91,9 @@ export default {
                         }, 'success', 'Logrado', "Se ha eliminado correctamente")
                     })
                     .catch(error => {
-                        basicAlert(() => {}, 'error', 'Error', error.message)
+                        basicAlert(() => { }, 'error', 'Error', error.message)
                     })
                     .finally(() => {
-                        confirmDialog.value = false;
                         itemToDelete.value = null;
                     });
             }
@@ -110,18 +109,18 @@ export default {
                         }, 'success', 'Logrado', "Se ha actualizado correctamente")
                     })
                     .catch(error => {
-                        basicAlert(() => {}, 'error', 'Error', error.message)
+                        basicAlert(() => { }, 'error', 'Error', error.message)
                     })
             } else {
-                basicAlert(() => {}, 'warning', 'Error', "Los campos no deben estar vacíos")
+                basicAlert(() => { }, 'warning', 'Error', "Los campos no deben estar vacíos")
             }
         }
 
         return {
             dialogEdit,
             dataCompanies,
+            dialogLoader,
             itemEdit,
-            confirmDialog,
             itemToDelete,
             onUpdateItem,
             onDeleteItem,
