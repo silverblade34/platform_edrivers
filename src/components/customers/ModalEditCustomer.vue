@@ -12,7 +12,7 @@
                         v-model="username"></v-text-field>
                     <v-text-field variant="outlined" label="Contraseña" prepend-inner-icon="mdi-lock" color="blue"
                         v-model="password"></v-text-field>
-                    <v-select :items="recourses" label="Recursos" item-text="name" item-value="recourseId" v-model="selectedRecourse"></v-select>
+                    <v-select :items="recourses" label="Recursos" item-text="name" item-value="recourseId" v-model="selectedRecourse" :disabled="loadingRecourses"></v-select>
                 </v-col>
             </v-card-text>
             <v-card-actions>
@@ -20,7 +20,7 @@
                 <v-btn color="blue-grey-lighten-2" variant="tonal" @click="closeItem">
                     Cancelar
                 </v-btn>
-                <v-btn color="blue-lighten-1" variant="tonal" @click="editItem">
+                <v-btn color="blue-lighten-1" variant="tonal" @click="editItem" :disabled="loadingRecourses">
                     Aceptar
                 </v-btn>
             </v-card-actions>
@@ -30,7 +30,8 @@
 
 <script>
 import { ref, watch } from 'vue';
-import { findRecoursesApi } from '@/api/CustomersService'; 
+import { findRecoursesApi, assignRecourseApi } from '@/api/CustomersService'; // Asegúrate de tener esta función en tu servicio
+import store from '@/store';
 
 export default {
     props: {
@@ -47,45 +48,61 @@ export default {
         const codecompany = ref('');
         const recourses = ref([]);
         const selectedRecourse = ref(null);
-        const token = ref('');
+        const loadingRecourses = ref(false);
 
         watch(() => props.openModal, (newVal) => {
             dialog.value = newVal;
         });
 
-        watch(() => props.itemEdit, (newVal) => {
+        watch(() => props.itemEdit, async (newVal) => {
             if (Object.keys(newVal).length !== 0) {
                 id.value = newVal.item.id;
                 name.value = newVal.item.name;
                 username.value = newVal.item.user.username;
                 password.value = newVal.item.user.password;
                 codecompany.value = newVal.item.codecompany;
-                token.value = newVal.item.token;
-                console.log('itemEdit:', newVal.item);
-                loadRecourses(newVal.item.token, newVal.item.id);
+                selectedRecourse.value = newVal.item.recourseId; // Preseleccionar el recurso asignado previamente
+                await loadRecourses(newVal.item.id); // Carga los recursos cuando el modal se abre
             }
         });
 
-        const loadRecourses = async (token, id) => {
+        const loadRecourses = async (id) => {
+            recourses.value = []; // Vacía la lista de recursos
+            loadingRecourses.value = true; // Activa el indicador de carga
             try {
-                console.log('Loading recourses for ID:', id, 'with token:', token);
-                const response = await findRecoursesApi(token, id);
+                const response = await findRecoursesApi(store.state.token, id);
                 console.log('Recourses response:', response.data);
-                recourses.value = response.data.data.filter(recourse => recourse.recourseId === 401275157);
+                recourses.value = response.data.data.map(recourse => recourse.recourseId); // Extraer solo los valores de recourseId
             } catch (error) {
                 console.error('Error loading recourses:', error);
+            } finally {
+                loadingRecourses.value = false; // Desactiva el indicador de carga
             }
         };
 
-        const editItem = () => {
+        const assignRecourse = async () => {
+            try {
+                const payload = {
+                    customerId: id.value,
+                    recourseId: selectedRecourse.value
+                };
+                await assignRecourseApi(payload, store.state.token);
+                console.log('Recurso asignado correctamente');
+            } catch (error) {
+                console.error('Error asignando recurso:', error);
+            }
+        };
+
+        const editItem = async () => {
             emit("edit-item", {
                 id: id.value,
                 name: name.value,
                 username: username.value,
                 password: password.value,
                 codecompany: codecompany.value,
-                recourseId: selectedRecourse.value
+                recourseId: selectedRecourse.value // Agregar el recurso seleccionado
             });
+            await assignRecourse(); // Asignar el recurso al cliente
             closeItem();
         };
 
@@ -102,6 +119,7 @@ export default {
             codecompany,
             recourses,
             selectedRecourse,
+            loadingRecourses,
             editItem,
             closeItem
         };

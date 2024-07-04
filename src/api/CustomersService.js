@@ -19,7 +19,7 @@ export function createCustomersApi(payload, token) {
 }
 
 export function updateCustomerApi(payload, token, id) {
-    console.log("gaaaaaaaaaaaaaaaa",id)
+
     return axiosInstance.patch(`${baseURL}/customers/${id}`,payload, {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -36,9 +36,18 @@ export function deleteCustomerApi(token, id) {
 }
 
 
-export function findRecoursesApi(  token, id) {
-    // console.log("token", token, "id :", id)
+export function findRecoursesApi(token, id) {
+
     return axiosInstance.get(`${baseURL}/customers/findAllRecourses/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
+
+export function assignRecourseApi(payload, token) {
+    return axiosInstance.post(`${baseURL}/customers/asignRecourse`, payload, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
