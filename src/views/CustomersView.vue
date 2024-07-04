@@ -8,7 +8,6 @@
     </div>
     <ModalEditCustomerVue :itemEdit="itemEdit" :openModal="dialogEdit" @cancel-item="dialogEdit = false"
         @edit-item="onUpdateItem" />
-
     <v-dialog v-model="dialogLoader" :scrim="false" persistent width="auto">
         <v-card color="indigo">
             <v-card-text>
@@ -18,10 +17,10 @@
         </v-card>
     </v-dialog>
 </template>
+
 <script>
-/* eslint-disable */
 import { ref, onMounted } from 'vue';
-import { basicAlert, confirmBasic } from '@/helpers/SweetAlert'; // Importando basicAlert
+import { basicAlert, confirmBasic } from '@/helpers/SweetAlert';
 import { findAllCustomersApi, createCustomersApi, updateCustomerApi, deleteCustomerApi } from '@/api/CustomersService';
 import ModalCreateCustomerVue from '@/components/customers/ModalCreateCustomer.vue';
 import TableCustomersVue from '@/components/customers/TableCustomers.vue';
@@ -72,7 +71,7 @@ export default {
 
         const onEditItem = (item) => {
             dialogEdit.value = true;
-            itemEdit.value = item;
+            itemEdit.value = { ...item, token: store.state.token }; // Pasar el token al itemEdit
         }
 
         const onDeleteItem = (item) => {

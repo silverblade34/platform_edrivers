@@ -35,3 +35,12 @@ export function deleteCustomerApi(token, id) {
     })
 }
 
+
+export function findRecoursesApi(  token, id) {
+    // console.log("token", token, "id :", id)
+    return axiosInstance.get(`${baseURL}/customers/findAllRecourses/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}

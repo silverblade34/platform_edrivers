@@ -12,8 +12,7 @@
                         v-model="username"></v-text-field>
                     <v-text-field variant="outlined" label="Contraseña" prepend-inner-icon="mdi-lock" color="blue"
                         v-model="password"></v-text-field>
-                    <!-- <v-text-field variant="outlined" label="Codigo de compañia" prepend-inner-icon="mdi-barcode"
-                        color="blue" v-model="codecompany"></v-text-field> -->
+                    <v-select :items="recourses" label="Recursos" item-text="name" item-value="recourseId" v-model="selectedRecourse"></v-select>
                 </v-col>
             </v-card-text>
             <v-card-actions>
@@ -28,8 +27,10 @@
         </v-card>
     </v-dialog>
 </template>
+
 <script>
 import { ref, watch } from 'vue';
+import { findRecoursesApi } from '@/api/CustomersService'; 
 
 export default {
     props: {
@@ -39,43 +40,58 @@ export default {
     emits: ['edit-item', 'cancel-item'],
     setup(props, { emit }) {
         const dialog = ref(false);
-        const id = ref('')
+        const id = ref('');
         const name = ref('');
         const username = ref('');
         const password = ref('');
         const codecompany = ref('');
+        const recourses = ref([]);
+        const selectedRecourse = ref(null);
+        const token = ref('');
 
-
-        watch(() => props.openModal, async (newVal) => {
-            dialog.value = newVal
-        })
+        watch(() => props.openModal, (newVal) => {
+            dialog.value = newVal;
+        });
 
         watch(() => props.itemEdit, (newVal) => {
-            console.log(newVal)
             if (Object.keys(newVal).length !== 0) {
-                id.value = newVal.item.id
-                name.value = newVal.item.name
-                username.value = newVal.item.user.username
-                password.value = newVal.item.user.password
-                codecompany.value = newVal.item.codecompany
+                id.value = newVal.item.id;
+                name.value = newVal.item.name;
+                username.value = newVal.item.user.username;
+                password.value = newVal.item.user.password;
+                codecompany.value = newVal.item.codecompany;
+                token.value = newVal.item.token;
+                console.log('itemEdit:', newVal.item);
+                loadRecourses(newVal.item.token, newVal.item.id);
             }
-        })
+        });
 
+        const loadRecourses = async (token, id) => {
+            try {
+                console.log('Loading recourses for ID:', id, 'with token:', token);
+                const response = await findRecoursesApi(token, id);
+                console.log('Recourses response:', response.data);
+                recourses.value = response.data.data.filter(recourse => recourse.recourseId === 401275157);
+            } catch (error) {
+                console.error('Error loading recourses:', error);
+            }
+        };
 
         const editItem = () => {
             emit("edit-item", {
-                "id": id.value,
-                "name": name.value,
-                "username": username.value,
-                "password": password.value,
-                "codecompany": codecompany.value
-            })
+                id: id.value,
+                name: name.value,
+                username: username.value,
+                password: password.value,
+                codecompany: codecompany.value,
+                recourseId: selectedRecourse.value
+            });
             closeItem();
-        }
+        };
 
         const closeItem = () => {
-            emit('cancel-item')
-        }
+            emit('cancel-item');
+        };
 
         return {
             dialog,
@@ -84,9 +100,11 @@ export default {
             username,
             password,
             codecompany,
+            recourses,
+            selectedRecourse,
             editItem,
             closeItem
-        }
+        };
     }
-}
+};
 </script>
